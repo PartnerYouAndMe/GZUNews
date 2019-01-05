@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+<!-- 页面标题 -->
+{% block title %}
+贵大图书馆新闻
+{% endblock %}
+
+{% block header_extends %}
+<link rel="stylesheet" href="{% static 'news_list.css' %}">
+{% endblock %}
+
+{% block home_active %}
+active
+{% endblock %}
+
+<!-- 页面内容 -->
+{% block content %}
+<div class="container">
+	<div class="panel panel-default">
+		{# 新闻内容列表 #}
+		<div class="panel-heading">
+			新闻列表
+		</div>
+		<div class="panel-body">
+			{% for news in aPageNews %}
+			<h3>
+				<a href="{% url 'news_detail' news.pk %} ">
+					{{ news.title }}
+				</a>
+			</h3>
+			<p>{{ news.publicContent|truncatechars:30 }} </p>
+			{% endfor %}
+		</div>
+	</div>
+	{# 分页选项 #}
+	<div aria-label="Page navigation" class="paginator">
+		<ul class="pagination">
+			<!-- 首页 -->
+			<li>
+					<a href="/?page=1" aria-label="Next">
+						<span aria-hidden="true">首页</span>
+					</a>
+				</li>
+			<!-- 上一页 -->
+			<li>
+				{% if page_of_news.has_previous %}
+					<a href="/?page={{ page_of_news.previous_page_number }}" aria-label="Previous">
+						<span aria-hidden="true">&laquo;</span>
+					</a>
+				{% else %}
+					<a href="#" aria-label="Previous">
+						<span aria-hidden="true">&laquo;</span>
+					</a>
+				{% endif %}
+			</li>
+			
+			<!-- 中间内容 -->
+			{% if page_of_news.number > 4 %}
+			<li>
+				<span aria-hidden="false">...</span>
+			</li>
+			{% endif %}
+			
+			{% for page_num in range_of_page %}
+				{% if page_num == page_of_news.number and page_num > 0 and page_num <= max_page_num %}
+					<li class="active" ><a href="/?page={{ page_num }}">{{ page_num }}</a></li>
+				{% elif page_num > 0 and page_num <= max_page_num %}
+					<li><a href="/?page={{ page_num }}">{{ page_num }}</a></li>
+				{% endif %}
+			{% endfor %}
+
+			{% if page_of_news.number < max_page_num_3 %}
+			<li>
+				<span aria-hidden="false">...</span>
+			</li>
+			{% endif %}
+
+			<!-- 下一页 -->
+			<li>
+				{% if page_of_news.has_next %}
+					<a href="/?page={{ page_of_news.next_page_number }}" aria-label="Next">
+						<span aria-hidden="true">&raquo;</span>
+					</a>
+				{% else %}
+					<a href="#" aria-label="Next">
+						<span aria-hidden="true">&raquo;</span>
+					</a>
+				{% endif %}
+			</li>
+			<!-- 尾页 -->
+			<li>
+				<a href="/?page={{ max_page_num }}" aria-label="Next">
+					<span aria-hidden="true">尾页</span>
+				</a>
+			</li>
+		</ul>
+	</div>
+</div>
+
+{% endblock %}

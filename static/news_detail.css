@@ -1,0 +1,10 @@
+
+ul.news-info-description{
+    list-style-type: none
+}
+
+ul.news-info-description li{
+    display: inline-block;
+    margin-bottom: 2em;
+    margin-right: 2em;
+}

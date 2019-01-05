@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+
+{% block header_extends %}
+<link rel="stylesheet" href="{% static 'news_detail.css' %}">
+{% endblock %}
+
+<!-- 页面标题 -->
+{% block title %}
+{{aNews.title}}
+{% endblock %}  
+
+<!-- 页面内容 -->
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-10 col-xs-offset-1">
+                <h3> {{ aNews.title }} </h3>
+                <ul class="news-info-description">
+                    <li>发布时间：{{aNews.publicTime}}</li>
+                    <li>访问次数：{{aNews.visitCount}} </li>
+                </ul>
+                <p> {{ aNews.publicContent }} </p>
+            </div>
+        </div>
+        
+    </div>
+    
+{% endblock %}
+
